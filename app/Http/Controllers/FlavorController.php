@@ -7,6 +7,8 @@ use App\Models\Flavor;
 use App\Http\Requests\{
     FlavorCreatRequest
 };
+use App\Repositories\FlavorRepositoryInterface;
+use App\Repositories\FlavorRepository;
 use Illuminate\Http\Request;
 
 /**

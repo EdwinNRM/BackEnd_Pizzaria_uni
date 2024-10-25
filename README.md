@@ -34,8 +34,6 @@ Além de aplicar os princípios SOLID, também foram adicionadas mensagens mais 
 
 ### Por que usar Repositories e não Contracts ou Services
 
-A escolha entre usar repositórios, contratos (interfaces) e serviços pode depender do contexto e dos requisitos do projeto. Vamos explorar cada um e entender a decisão:
-
 ### 1. **Repositories (Repositórios)**
 
 Os repositórios são usados para abstrair a lógica de acesso a dados. Eles fornecem uma interface para interagir com a camada de persistência (como um banco de dados), encapsulando a lógica de consulta e manipulação de dados. 
@@ -71,4 +69,5 @@ No caso dos controladores `UserController` e `FlavorController`, optei por usar 
 
 3. **Simplicidade e Clareza**: Para operações básicas de CRUD (Criar, Ler, Atualizar, Deletar), a estrutura de repositórios é suficiente e não adiciona complexidade desnecessária ao design.
 
-![The_Coding_Cat](https://github.com/EdwinNRM/EdwinNRM/blob/main/The_coding_cat.jpeg)
+### That's all folks
+<img src="https://github.com/EdwinNRM/EdwinNRM/blob/main/The_coding_cat.jpg" alt="The Coding Cat" width="150"/>

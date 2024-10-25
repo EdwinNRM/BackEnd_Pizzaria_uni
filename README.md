@@ -71,4 +71,5 @@ No caso dos controladores `UserController` e `FlavorController`, optei por usar 
 
 3. **Simplicidade e Clareza**: Para operações básicas de CRUD (Criar, Ler, Atualizar, Deletar), a estrutura de repositórios é suficiente e não adiciona complexidade desnecessária ao design.
 
-![The_Coding_Cat](https://github.com/EdwinNRM/EdwinNRM/blob/main/The_coding_cat.jpg)
+### That's all folks
+<img src="https://github.com/EdwinNRM/EdwinNRM/blob/main/The_coding_cat.jpg" alt="The Coding Cat" width="150"/>

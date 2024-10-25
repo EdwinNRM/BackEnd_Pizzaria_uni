@@ -2,101 +2,131 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\UserServiceInterface;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class UserController
+ *
+ * @package App\Http\Controllers
+ * @author Vinícius Siqueira
+ * @link https://github.com/ViniciusSCS
+ * @date 2024-08-23 21:48:54
+ * @copyright UniEVANGÉLICA
+ * Melhorado por The_Coding_Cat
+ *     /\_____/\
+ *    /  o   o  \
+ *   ( ==  ^  == )
+ *    )         (
+ *   (           )
+ *  ( (  )   (  ) )
+*  (__(__)___(__)__)
+ */
 class UserController extends Controller
 {
-    protected UserServiceInterface $userService;
+    private UserRepositoryInterface $userRepository;
 
-    public function __construct(UserServiceInterface $userService)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->userService = $userService;
+        $this->userRepository = $userRepository;
     }
 
     public function index(): JsonResponse
     {
-        $users = $this->userService->getAllUsers();
+        // Retornando todos os usuários cadastrados
+        $users = $this->userRepository->all();
 
         return response()->json([
             'status' => 200,
-            'message' => 'Usuários encontrados!',
+            'message' => 'Aqui estão os usuários!',
             'users' => $users,
         ]);
     }
 
     public function me(): JsonResponse
     {
-        $user = $this->userService->getCurrentUser();
+        // Retornando o usuário logado
+        $user = Auth::user();
 
         return response()->json([
             'status' => 200,
-            'message' => 'Usuário logado!',
+            'message' => 'Você está logado!',
             'user' => $user,
         ]);
     }
 
     public function store(UserCreateRequest $request): JsonResponse
     {
-        $user = $this->userService->createUser($request->all());
+        // Criando um novo usuário
+        $user = $this->userRepository->create($request->validated());
 
         return response()->json([
-            'status' => 200,
-            'message' => 'Usuário cadastrado com sucesso!',
+            'status' => 201,
+            'message' => 'Novo usuário criado com sucesso!',
             'user' => $user,
         ]);
     }
 
     public function show(string $id): JsonResponse
     {
-        $user = $this->userService->getUserById($id);
+        // Mostrando informações de um usuário específico
+        $user = $this->userRepository->find($id);
 
         if (!$user) {
             return response()->json([
                 'status' => 404,
-                'message' => 'Usuário não encontrado! Que triste!',
+                'message' => 'Ops! Usuário não encontrado.',
             ]);
         }
 
         return response()->json([
             'status' => 200,
-            'message' => 'Usuário encontrado com sucesso!',
+            'message' => 'Encontramos o usuário!',
             'user' => $user,
         ]);
     }
 
     public function update(UserUpdateRequest $request, string $id): JsonResponse
     {
-        $user = $this->userService->updateUser($id, $request->all());
+        // Atualizando as informações do usuário
+        $user = $this->userRepository->find($id);
 
         if (!$user) {
             return response()->json([
                 'status' => 404,
-                'message' => 'Usuário não encontrado! Que triste!',
+                'message' => 'Não conseguimos encontrar o usuário!',
             ]);
         }
 
+        $this->userRepository->update($user, $request->validated());
+
         return response()->json([
             'status' => 200,
-            'message' => 'Usuário atualizado com sucesso!',
+            'message' => 'Informações do usuário atualizadas com sucesso!',
             'user' => $user,
         ]);
     }
 
     public function destroy(string $id): JsonResponse
     {
-        if ($this->userService->deleteUser($id)) {
+        // Removendo o usuário
+        $user = $this->userRepository->find($id);
+
+        if (!$user) {
             return response()->json([
-                'status' => 200,
-                'message' => 'Usuário deletado com sucesso!',
+                'status' => 404,
+                'message' => 'Usuário não encontrado para deletar.',
             ]);
         }
 
+        $this->userRepository->delete($user);
+
         return response()->json([
-            'status' => 404,
-            'message' => 'Usuário não encontrado! Que triste!',
+            'status' => 200,
+            'message' => 'Usuário removido com sucesso!',
         ]);
     }
 }

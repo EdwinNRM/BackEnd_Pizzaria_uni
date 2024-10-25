@@ -1,70 +1,74 @@
-<<<<<<< HEAD
-# BackEnd_Pizzaria_uni
-=======
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Alterações nos Controladores: UserController e FlavorController
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Objetivo
+O objetivo dessas alterações é aplicar os princípios SOLID nos controladores `UserController` e `FlavorController`, visando uma melhor organização do código, maior facilidade de manutenção e uma estrutura mais robusta e escalável.
 
-## About Laravel
+## Princípios SOLID Aplicados
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 1. **S** - Single Responsibility Principle (Princípio da Responsabilidade Única)
+- **Alteração**: Cada controlador foi desacoplado da lógica de acesso a dados, introduzindo um repositório correspondente (`UserRepository` e `FlavorRepository`).
+- **Motivo**: Cada classe agora tem uma única responsabilidade: o controlador lida com as requisições e respostas, enquanto o repositório lida com a persistência de dados. Isso facilita a manutenção e os testes, pois mudanças em uma parte do sistema não afetam as demais.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 2. **O** - Open/Closed Principle (Princípio do Aberto/Fechado)
+- **Alteração**: A lógica de manipulação de dados foi movida para repositórios, permitindo que novas funcionalidades sejam adicionadas sem modificar o código existente nos controladores.
+- **Motivo**: Isso permite que o código esteja aberto para extensão (como adicionar novos métodos ao repositório), mas fechado para modificação, aumentando a robustez do sistema.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 3. **L** - Liskov Substitution Principle (Princípio da Substituição de Liskov)
+- **Alteração**: Interfaces foram criadas (`UserRepositoryInterface` e `FlavorRepositoryInterface`) para garantir que diferentes implementações possam ser utilizadas sem modificar o código que depende delas.
+- **Motivo**: Isso promove a flexibilidade, permitindo que o sistema utilize diferentes implementações de repositórios sem impactar a lógica do controlador.
 
-## Learning Laravel
+### 4. **I** - Interface Segregation Principle (Princípio da Segregação de Interfaces)
+- **Alteração**: As interfaces definem métodos específicos para a manipulação de usuários e sabores, evitando métodos desnecessários que não são usados pelos controladores.
+- **Motivo**: Isso torna as interfaces mais fáceis de entender e implementar, além de garantir que as classes dependam apenas dos métodos que realmente utilizam.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 5. **D** - Dependency Inversion Principle (Princípio da Inversão de Dependências)
+- **Alteração**: Os controladores agora dependem de abstrações (interfaces) em vez de implementações concretas, utilizando a injeção de dependência para obter os repositórios.
+- **Motivo**: Isso reduz o acoplamento entre os componentes do sistema, facilitando a substituição de implementações e melhorando a testabilidade.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Mensagens Engraçadas
+Além de aplicar os princípios SOLID, também foram adicionadas mensagens mais descontraídas nos controladores e um easteregg especial para você nos seus comentários dentro das controllers, para tornar a interação mais leve e amigável. Essas mensagens ajudam a criar um ambiente mais acolhedor durante a comunicação com a API.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## MAS NAO ACABOU!!
 
-## Laravel Sponsors
+## Explicação sobre a Escolha de Repositórios
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Por que usar Repositories e não Contracts ou Services
 
-### Premium Partners
+A escolha entre usar repositórios, contratos (interfaces) e serviços pode depender do contexto e dos requisitos do projeto. Vamos explorar cada um e entender a decisão:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 1. **Repositories (Repositórios)**
 
-## Contributing
+Os repositórios são usados para abstrair a lógica de acesso a dados. Eles fornecem uma interface para interagir com a camada de persistência (como um banco de dados), encapsulando a lógica de consulta e manipulação de dados. 
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Quando usar**: 
+  - Quando você deseja isolar a lógica de acesso a dados da lógica de negócios.
+  - Quando sua aplicação interage frequentemente com o banco de dados.
+  - Para facilitar a testabilidade, permitindo a simulação de repositórios em testes unitários.
 
-## Code of Conduct
+### 2. **Contracts (Contratos/Interfaces)**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Os contratos (ou interfaces) definem um conjunto de métodos que uma classe deve implementar. Eles são importantes para garantir que diferentes classes que compartilham uma mesma interface possam ser usadas de maneira intercambiável.
 
-## Security Vulnerabilities
+- **Quando usar**:
+  - Quando você precisa de múltiplas implementações para uma mesma funcionalidade.
+  - Para garantir a consistência entre diferentes partes do sistema que utilizam a mesma interface.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 3. **Services (Serviços)**
 
-## License
+Os serviços geralmente encapsulam a lógica de negócios que pode envolver interações complexas entre várias entidades, incluindo chamadas a repositórios. Eles são utilizados para implementar regras de negócio que não pertencem a uma única entidade.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
->>>>>>> 88ab4b2 (Inclusao de arquivos)
+- **Quando usar**:
+  - Quando você tem lógica de negócios que envolve várias entidades e interações.
+  - Para agrupar operações que podem ser reutilizadas em diferentes partes da aplicação.
+
+### Decisão de Usar Repositórios
+
+No caso dos controladores `UserController` e `FlavorController`, optei por usar repositórios por algumas razões:
+
+1. **Isolamento da Lógica de Acesso a Dados**: Essa abordagem mantém a lógica de acesso a dados separada da lógica de negócios, o que é especialmente útil em sistemas onde a persistência de dados pode mudar (por exemplo, trocar de banco de dados).
+
+2. **Facilidade de Testes**: Usar repositórios torna mais fácil criar testes unitários, pois você pode simular o repositório e testar o controlador sem depender de um banco de dados real.
+
+3. **Simplicidade e Clareza**: Para operações básicas de CRUD (Criar, Ler, Atualizar, Deletar), a estrutura de repositórios é suficiente e não adiciona complexidade desnecessária ao design.
+
+![The_Coding_Cat](https://github.com/EdwinNRM/EdwinNRM/blob/main/The_coding_cat.jpeg)

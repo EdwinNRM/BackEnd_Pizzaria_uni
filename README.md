@@ -34,8 +34,6 @@ Além de aplicar os princípios SOLID, também foram adicionadas mensagens mais 
 
 ### Por que usar Repositories e não Contracts ou Services
 
-A escolha entre usar repositórios, contratos (interfaces) e serviços pode depender do contexto e dos requisitos do projeto. Vamos explorar cada um e entender a decisão:
-
 ### 1. **Repositories (Repositórios)**
 
 Os repositórios são usados para abstrair a lógica de acesso a dados. Eles fornecem uma interface para interagir com a camada de persistência (como um banco de dados), encapsulando a lógica de consulta e manipulação de dados. 
